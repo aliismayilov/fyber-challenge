@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe OfferService do
   describe 'config' do
-    it { expect(OfferService.base_uri).to eql 'http://api.sponsorpay.com/feed/v1/offers.json' }
-    it { expect(OfferService.format).to eql :json }
+    subject { OfferService }
+    its(:base_uri) { is_expected.to eql 'http://api.sponsorpay.com/feed/v1/offers.json' }
+    its(:format)   { is_expected.to eql :json }
   end
 end
