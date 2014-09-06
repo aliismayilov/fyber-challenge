@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.sponsorpay.com/feed/v1/offers.json/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 400 Bad Request
+      X-Runtime:
+      - '0.000231'
+      Date:
+      - Sat, 06 Sep 2014 15:53:42 GMT
+      X-Rack-Cache:
+      - miss
+      X-Powered-By:
+      - Phusion Passenger 4.0.14
+      Server:
+      - nginx + Phusion Passenger 4.0.14
+    body:
+      encoding: UTF-8
+      string: '{"code":"ERROR_INVALID_APPID","message":"An invalid application id
+        (appid) was given as a parameter in the request."}'
+    http_version: 
+  recorded_at: Fri, 05 Aug 2011 14:09:21 GMT
+recorded_with: VCR 2.9.2

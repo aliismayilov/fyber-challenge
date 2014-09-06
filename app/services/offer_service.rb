@@ -10,7 +10,7 @@ class OfferService
     @ps_time  = ps_time
   end
 
-  def concataned_parameters
+  def parameters
     {
       appid: appid,
       uid: @uid,
@@ -21,7 +21,11 @@ class OfferService
       pub0: @pub0,
       page: @page,
       timestamp: Time.now.to_i
-    }.
+    }
+  end
+
+  def concataned_parameters
+    parameters.
     reject { |key, value| value.nil? }.
     sort.
     map { |key, value| "#{key}=#{value}" }.
@@ -35,6 +39,12 @@ class OfferService
 
   def valid?
     response.headers['X-Sponsorpay-Response-Signature'] == hashkey(response.body)
+  end
+
+  def get
+    @response = self.class.get('/', parameters)
+    raise StandardError('hashkey unmatch') unless valid?
+    @response
   end
 
   private
@@ -56,5 +66,9 @@ class OfferService
 
     def api_key
       Rails.application.secrets.fyber['api_key']
+    end
+
+    def response
+      @response
     end
 end

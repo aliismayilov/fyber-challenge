@@ -90,4 +90,22 @@ describe OfferService do
       it { is_expected.not_to be_valid }
     end
   end
+
+  describe '#get', :vcr do
+    let(:offer_service) { OfferService.new 'player1' }
+
+    context 'valid' do
+      before { allow(offer_service).to receive(:valid?) { true } }
+      it 'returns an HTTParty response' do
+        expect(offer_service.get.class).to eql HTTParty::Response
+      end
+    end
+
+    context 'invalid' do
+      before { allow(offer_service).to receive(:valid?) { false } }
+      it 'raises a StandardError' do
+        expect{ offer_service.get }.to raise_error StandardError
+      end
+    end
+  end
 end

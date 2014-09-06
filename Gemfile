@@ -16,3 +16,8 @@ group :development, :test do
   gem 'rspec-its'
   gem 'pry-rails'
 end
+
+group :test do
+  gem 'vcr'
+  gem 'webmock' # required by 'vcr'
+end
