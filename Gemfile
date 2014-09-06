@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'httparty'
+gem 'slim-rails'
 
 group :development, :test do
   gem 'spring'
