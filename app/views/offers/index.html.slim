@@ -12,9 +12,11 @@ h1 Offers
     = text_field_tag :page, '', class: 'form-control', type: :number
   = submit_tag 'Show offers', class: 'btn btn-default'
 
-- if @service_response
-  - JSON.parse(@service_response.body)['offers'].each do |offer|
+- if @offers && @offers.any?
+  - @offers.each do |offer|
     .offer
       .title = offer['title']
       .payout = offer['payout']
       .thumbnail = image_tag offer['thumbnail']['lowres']
+- else
+  .no_offers No offers
