@@ -3,7 +3,7 @@ Fyber challenge
 
 A rails app to use fyber API.
 
-# Setup
+## Setup
 
 Create a `.env` file with following keys:
 ```yml
