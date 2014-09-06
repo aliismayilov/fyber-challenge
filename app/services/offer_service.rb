@@ -10,7 +10,7 @@ class OfferService
     @ps_time  = ps_time
   end
 
-  def hashvalues
+  def concataned_parameters
     {
       appid: appid,
       uid: @uid,
@@ -21,12 +21,40 @@ class OfferService
       pub0: @pub0,
       page: @page,
       timestamp: Time.now.to_i
-    }.reject { |key, value| value.nil? }
+    }.
+    reject { |key, value| value.nil? }.
+    sort.
+    map { |key, value| "#{key}=#{value}" }.
+    join('&')
   end
 
-  def hashkey
-    string = hashvalues.sort.map { |key, value| "#{key}=#{value}" }.join('&')
+  def hashkey(string=concataned_parameters)
     string += "&#{api_key}"
     Digest::SHA1.hexdigest string
   end
+
+  def valid?
+    response.headers['X-Sponsorpay-Response-Signature'] == hashkey(response.body)
+  end
+
+  private
+    def appid
+      Rails.application.secrets.fyber['appid']
+    end
+
+    def ip
+      Rails.application.secrets.fyber['ip']
+    end
+
+    def locale
+      Rails.application.secrets.fyber['locale']
+    end
+
+    def device_id
+      Rails.application.secrets.fyber['device_id']
+    end
+
+    def api_key
+      Rails.application.secrets.fyber['api_key']
+    end
 end

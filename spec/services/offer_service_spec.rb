@@ -12,7 +12,7 @@ describe OfferService do
     it { expect{ OfferService.new('player1', pub0: 'campaign2', page: 1) }.not_to raise_error }
   end
 
-  describe 'hashkey' do
+  describe '#hashkey' do
     subject(:offer_service) { OfferService.new('player1', pub0: 'campaign2', page: 2, ps_time: 1312211903) }
     before do
       allow(offer_service).to receive(:appid) { 157 }
@@ -25,5 +25,69 @@ describe OfferService do
     end
 
     its(:hashkey) { is_expected.to eql '7a2b1604c03d46eec1ecd4a686787b75dd693c4d' }
+  end
+
+  describe '#valid?' do
+    subject(:offer_service) { OfferService.new('player1') }
+
+    let(:response_body) do
+      {
+       "code"  =>  " OK" ,
+       "message" =>  "OK",
+       "count" =>  "1" ,
+       "pages" =>  "1" ,
+       "information"  =>  {
+        "app_name" =>  "SP Test App" ,
+        "appid" =>  "157",
+        " virtual_ currency" =>  "Coins",
+        "country" =>  " US" ,
+        "language" =>  " EN" ,
+        "support_url"  =>  "http://iframe.sponsorpay.com/mobile/DE/157/my_offers"
+       },
+       "offers"  =>  [
+        {
+          "title" =>  " Tap  Fish",
+          "offer_id" =>  " 13554",
+          " teaser "  =>  "  Download and START " ,
+          " required _actions "  =>  "Download and START",
+          "link"  =>  "http://iframe.sponsorpay.com/mbrowser?appid=157&lpid=11387&uid=player1",
+          "offer_types" =>  [
+           {
+            "offer_type_id"=>  "101",
+            "readable"=>  "Download"
+           },
+           {
+            "offer_type_id"=>  "112",
+            "readable"=>  "Free"
+           }
+          ] ,
+          "thumbnail" =>  {
+           "lowres" =>  "http://cdn.sponsorpay.com/assets/1808/icon175x175- 2_square_60.png" ,
+           "hires" =>  "http://cdn.sponsorpay.com/assets/1808/icon175x175- 2_square_175.png"
+          },
+          "payout"  =>  "90",
+          "time_to_payout"  =>  {
+           "amount"  =>  "1800" ,
+           "readable" =>  "30 minutes"
+          }
+        }
+       ]
+      }.to_json
+    end
+    before do
+      allow(offer_service).to receive(:response) { response }
+    end
+
+    context 'valid' do
+      let(:response) { double('response', body: response_body, headers: {'X-Sponsorpay-Response-Signature' => '03693fdd44dc4a28e99417286598148c745733f1'} ) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'invalid' do
+      let(:response) { double('response', body: response_body, headers: {'X-Sponsorpay-Response-Signature' => '123'} ) }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 end
