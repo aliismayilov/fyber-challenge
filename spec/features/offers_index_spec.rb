@@ -51,7 +51,7 @@ describe 'Offers index page' do
   it 'queries offers' do
     visit offers_path
     fill_in 'uid', with: 'player1'
-    fill_in 'pbu0', with: 'campaign2'
+    fill_in 'pub0', with: 'campaign2'
     fill_in 'page', with: 1
     click_button 'Show offers'
     expect(page).to have_css('.offer', count: 1)

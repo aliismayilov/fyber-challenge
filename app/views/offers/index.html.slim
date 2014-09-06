@@ -1,2 +1,20 @@
-h1 Offers#index
-p Find me in app/views/offers/index.html.slim
+h1 Offers
+
+= form_tag offers_path, method: :get
+  .form-group
+    = label_tag :uid
+    = text_field_tag :uid, '', class: 'form-control'
+  .form-group
+    = label_tag :pub0
+    = text_field_tag :pub0, '', class: 'form-control'
+  .form-group
+    = label_tag :page
+    = text_field_tag :page, '', class: 'form-control', type: :number
+  = submit_tag 'Show offers', class: 'btn btn-default'
+
+- if @service_response
+  - JSON.parse(@service_response.body)['offers'].each do |offer|
+    .offer
+      .title = offer['title']
+      .payout = offer['payout']
+      .thumbnail = image_tag offer['thumbnail']['lowres']

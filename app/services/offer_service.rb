@@ -34,7 +34,7 @@ class OfferService
   end
 
   def hashkey(string=concataned_parameters)
-    Digest::SHA1.hexdigest string.concat(api_key)
+    Digest::SHA1.hexdigest (string + api_key)
   end
 
   def valid?
@@ -42,8 +42,8 @@ class OfferService
   end
 
   def get
-    @response = self.class.get('/', parameters)
-    raise StandardError('hashkey unmatch') unless valid?
+    @response = self.class.get('/', parameters.merge(hashkey: hashkey))
+    raise StandardError unless valid?
     @response
   end
 
