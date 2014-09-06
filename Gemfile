@@ -21,4 +21,5 @@ end
 group :test do
   gem 'vcr'
   gem 'webmock' # required by 'vcr'
+  gem 'shoulda-matchers', require: false
 end
