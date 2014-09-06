@@ -29,12 +29,12 @@ class OfferService
     reject { |key, value| value.nil? }.
     sort.
     map { |key, value| "#{key}=#{value}" }.
-    join('&')
+    join('&').
+    concat('&')
   end
 
   def hashkey(string=concataned_parameters)
-    string += "&#{api_key}"
-    Digest::SHA1.hexdigest string
+    Digest::SHA1.hexdigest string.concat(api_key)
   end
 
   def valid?

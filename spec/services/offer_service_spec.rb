@@ -79,7 +79,7 @@ describe OfferService do
     end
 
     context 'valid' do
-      let(:response) { double('response', body: response_body, headers: {'X-Sponsorpay-Response-Signature' => '03693fdd44dc4a28e99417286598148c745733f1'} ) }
+      let(:response) { double('response', body: response_body, headers: {'X-Sponsorpay-Response-Signature' => '4590d15cdb128f124ce7c721e8153337b8371fe0'} ) }
 
       it { is_expected.to be_valid }
     end
